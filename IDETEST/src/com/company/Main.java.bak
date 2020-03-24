@@ -13,7 +13,6 @@ import static com.company.BuildTableModel.buildTableModel;
 public class Main {
         static JButton button1;
         static JTable table1;
-        static JFrame frame = new JFrame("JTable Test");
 static int initial = 0;
         static DefaultTableModel model = new DefaultTableModel();
         public static void tableFiller()
@@ -53,13 +52,11 @@ static int initial = 0;
                         while (rs.next()) {
                                 String id = rs.getString("idtt");
                                 String lastName = rs.getString("lastnamett");
-                                String name = rs.getString("namett");
-                                model.addRow(new Object[]{id, lastName, name});
                                 System.out.println(query + " " +id + ": " + lastName + ", " + name);
                         }
 
 
-
+                        }
                         table1 = new JTable(model);
                         refresh();
                         JOptionPane.showMessageDialog(null, "Done");
@@ -90,10 +87,10 @@ public static void refresh(){
 if (initial == 0) {initial = 1;}
 }
     public static void main(String[] args) throws SQLException {
-        JOptionPane.showMessageDialog(null, "start");
-mainForm form = new mainForm();
+       // JOptionPane.showMessageDialog(null, "start");
+/*mainForm form = new mainForm();
 
-                tableFiller();
+                tableFiller(db);
 
 
 

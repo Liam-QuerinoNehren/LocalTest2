@@ -42,7 +42,7 @@ public class Main {
                         e.printStackTrace();
                 }
                 try {
-
+                        model = new DefaultTableModel();
                         model.addColumn("ID");
                         model.addColumn("LastName");
                         model.addColumn("Name");
@@ -55,6 +55,7 @@ public class Main {
 
                         }
                         table1 = new JTable(model);
+
                         JOptionPane.showMessageDialog(null, "Done");
                 } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "2");

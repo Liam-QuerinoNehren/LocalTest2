@@ -15,15 +15,25 @@ public class Main {
         static JTable table1;
         static JFrame frame = new JFrame("JTable Test");
 static int initial = 0;
+static int db = 0;
         static DefaultTableModel model = new DefaultTableModel();
-        public static void tableFiller()
+        public static void tableFiller(int database)
         {
                 JOptionPane.showMessageDialog(null, "arrived");
                 Statement stmt = null;
                 ResultSet rs = null;
                 String username = "user=LIAMNEHREN";
                 String password = "password=Rubilacxe1";
-                String query = "SELECT * FROM testschema.testtable";
+                String query = "";
+
+                if (database == 0)
+                {
+                        query = "SELECT * FROM testschema.testtable";
+                }
+                else {
+                        query = "SELECT * FROM testschema.testtable2";
+                }
+
                 String url = "jdbc:mysql://localhost:3306/mysql?";
                 Connection conn = null;
                 try {
@@ -47,6 +57,8 @@ static int initial = 0;
                         table1 = new JTable();
                 	model = new DefaultTableModel();
                         table1 = new JTable(model);
+                        if (database == 0)
+                        {
                         model.addColumn("ID");
                         model.addColumn("LastName");
                         model.addColumn("Name");
@@ -59,7 +71,21 @@ static int initial = 0;
                         }
 
 
-
+                        }
+                        else {
+                                model.addColumn("ID");
+                                model.addColumn("Name");
+                                model.addColumn("Price");
+                                model.addColumn("Quantity");
+                                while (rs.next()) {
+                                        String id = rs.getString("idtt2");
+                                        String name = rs.getString("namett2");
+                                        String price = rs.getString("pricett2");
+                                        String quantity = rs.getString("quantitytt2");
+                                        model.addRow(new Object[]{id, name, price, quantity});
+                                        System.out.println(query + " " +id + ": " + name + ", " + price + ", " + quantity);
+                                }
+                        }
                         table1 = new JTable(model);
                         refresh();
                         JOptionPane.showMessageDialog(null, "Done");
@@ -72,7 +98,7 @@ static int initial = 0;
 public static void refresh(){
                 if (initial==1){
                         frame.setVisible(false);
-                }
+                } else {initial = 1;}
         JPanel Panel1 = new JPanel();
         table1 = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table1);
@@ -87,22 +113,26 @@ public static void refresh(){
         frame.getContentPane().add(Panel1);
         frame.pack();
         frame.setVisible(true);
-if (initial == 0) {initial = 1;}
+
+        button1.addActionListener(new ActionListener() {
+                @Override
+
+                public void actionPerformed(ActionEvent actionEvent)
+                {
+                        if (db == 1) {db = 0;}else {db=1;}
+                        tableFiller(db);
+                }
+        });
 }
     public static void main(String[] args) throws SQLException {
         JOptionPane.showMessageDialog(null, "start");
 mainForm form = new mainForm();
 
-                tableFiller();
+                tableFiller(db);
 
 
 
-            button1.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                            tableFiller();
-                    }
-            });
+
 
     }
         public void mainForm(){
